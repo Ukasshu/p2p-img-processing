@@ -66,7 +66,7 @@ class Client {
       msg = messageBuffers.get(socket.remoteAddress) + data.toString() 
       if(msg.slice(-1) == '}'){
         messageBuffers.set(socket.remoteAddress, "")
-        this.handler.handle(data.toString())  
+        this.handler.handle(JSON.parse(msg))  
       }
       else{
         messageBuffers.set(socket.remoteAddress, msg)
