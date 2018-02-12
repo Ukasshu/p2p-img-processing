@@ -3,7 +3,7 @@ const Handler = require('./handler')
 const ImageJS = require('imagejs')
 
 class ToScaleHandler extends Handler {
-	constructor(supervisor ,handler){
+	constructor(supervisor, handler){
 		super(handler)
 		this.supervisor = supervisor
 	}

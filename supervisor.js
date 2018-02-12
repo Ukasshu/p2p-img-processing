@@ -41,6 +41,8 @@ class Supervisor extends MyObserver {
 				scaledImage.setPixel(xs+i-1, ys+j-1, img.getPixel(i,j))
 			}
 		}
+		supervisor.scaledImage.writeFile('./scaledImage.jpg', {quality: 90})
+				.then(() => {})
 	}
 
 	notifyTaskDone(ip){
@@ -123,7 +125,13 @@ class Supervisor extends MyObserver {
 					XX: '1000'*bitmap.width,
 					YY: '1000'*bitmap.height
 				}))
-				this.scaledImage = new ImageJS.Bitmap({width: 1000*bitmap.width, height: 1000*bitmap.height}) //mało co zapomniałem o tym
+				//this.scaledImage = new ImageJS.Bitmap({width: 1000*bitmap.width, height: 1000*bitmap.height}) //mało co zapomniałem o tym
+				this.dimensionsHandler.handle({
+					type: 'dimensions',
+					XX: '1000'*bitmap.width,
+					YY: '1000'*bitmap.height
+				})
+
 				var hAmount = 4
 				var vAmount = 4
 				var lastHPiece = 0
@@ -149,7 +157,7 @@ class Supervisor extends MyObserver {
 
 
 	saveCrop(crop, x, y){
-		cropped.writeFile('./crops/' + x + '_' + y + '.jpg')
+		cropped.writeFile('./crops/' + x + '_' + y + '.jpg', {quality: 90})
 			.then(()=>{
 				var flag = false
 				for(ipAddress in ips){
@@ -175,5 +183,21 @@ class Supervisor extends MyObserver {
 
 	runBrowserToView(){
 		//potrzebny pakiet powershell do otworzenia przegladarki i http servera
+	}
+
+	takeAndCompleteTask(){
+		if(tasks != []){
+			task = tasks.shift()
+			var pic = fs.readFileSync('./crops/'+task.x+'_'+task.y+'.jpg')
+			this.toScaleHandler.handle({ 
+				type: 'toScale',
+				image: new Buffer(pic).toString('base64'),
+				xs: task.x,
+				ys: tasks.y,
+				scale: 1000
+			})
+			this.takeAndCompleteTask()
+		}
+		
 	}
 }
