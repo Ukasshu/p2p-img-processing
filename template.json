@@ -1,0 +1,22 @@
+{
+	"type" : "toScale",
+	"image": "base64IMG",
+	"xs1"  : 1,
+	//"xs2"  : 2,
+	"ys1"  : 3,
+	//"ys2"  : 4,
+	"scale": 10
+}
+
+{
+	"type" : "scaled",
+	"image": "base64IMG",
+	"x" : 1,
+	"y" : 2
+}
+
+{
+	"type": "dimensions",
+	"XX": 100,
+    "YY": 200
+}
