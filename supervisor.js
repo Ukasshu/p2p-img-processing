@@ -4,10 +4,11 @@ const Handler = require('./handler')
 const DimensionsHandler = require('./dimensions-handler')
 const ToScaleHandler = require('./toscale-handler')
 const ScaledHandler = require('./scaled-handler')
+const MyObserver =  require('./mysobserver')
 
 const ImageJS = require('imagejs')
 
-class Supervisor{
+class Supervisor extends MyObserver {
 	constructor(){
 		this.server = new Server(process.argv[4], Number(process.argv[3])) // zrobic fabryke i podmienic na jej wywolanie oraz start zamienic na start bez argumentowe
 		this.client = new Client(process.argv[2], Number(process.argv[3]))
@@ -16,6 +17,7 @@ class Supervisor{
 		this.tasks = []
 		this.ipMap = new Map() // K - ip, V - task
 		this.scaledImage = null
+		this.isDelegatingTasks  = false
 		
 
 		this.dimensionsHandler = new DimensionsHandler(this, null)
@@ -24,8 +26,8 @@ class Supervisor{
 		
 		this.server.handlerObject = this.toScaleHandler
 		this.client.handlerObject = this.toScaleHandler
-		this.server.supervisorObject = this
-		this.server.supervisorObject = this
+		this.server.observerObject = this
+		this.server.observerObject = this
 		
 
 
@@ -42,8 +44,25 @@ class Supervisor{
 	}
 
 	notifyTaskDone(ip){
-		this.ipMap.set(ip, this.task[0])
-		this.tasks.shift()
+		if(this.isDelegatingTasks){
+			this.ipMap.set(ip, this.tasks[0])
+			this.tasks.shift()
+			this.sendToIP(ip, JSON.stringify({
+				type: 'toScale',
+				image: 'tmp'//wczytać obrazek do base'a
+				xs: this.ipMap.get(ip).x,
+				xs: this.ipMap.get(ip).y,
+				scale: 1000
+			}))
+		}
+		else{
+			//something is no yes
+			// albo tak ma być i będzie bo serwer is client nie bedzie wiedział o tym czy dane zadanie zostało zlecone przez danego supervisora
+			null
+		}
+		//trzeba dopisac wysylanie wiadomosci do socketu o podanym adresie ze ma cos robic
+		//potrzeba flagi ktora bedzie oznaczac supervisor'a ktory nadzoruje przetwarzanie aby nie wyslac od wszystkich klientow 
+		//wymiarów obrazka aby client nie sfixował
 	}
 
 	notifyIPs(){
@@ -53,6 +72,13 @@ class Supervisor{
 		newIPs.foreach(elem => {
 			if( this.ipMap.get(elem) == undefined ){
 				this.ipMap.set(elem, {})
+				if(this.isDelegatingTasks){
+				    this.sendToIP(elem, JSON.stringify({
+				    	type: 'dimensions',
+				    	XX: scaledImage.width,
+				    	YY: scaledImage.height
+				    }))
+				}
 			}
 		})
 		oldIPs.foreach(elem =>{
@@ -62,5 +88,19 @@ class Supervisor{
 			}
 		})
 		this.ips = currentIPs
+	}
+
+	sendToIP(ip, msg){
+		this.client.sendToIP(ip, msg)
+		this.server.sendToIP(ip, msg)
+	}
+
+	broadcast(msg){
+		this.client.broadcast(msg)
+		this.server.broadcast(msg)
+	}
+
+	runCalculations(){
+		//funcka rozpoczynajaca całe dziadostwo xD - ta karuzele sp... xD
 	}
 }

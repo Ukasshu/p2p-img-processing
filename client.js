@@ -1,6 +1,7 @@
 const net = require('net')
 const arrayDiff = require('./array-diff')
 const arrayIntersection = require('./array-intersection')
+const MyObserver = require('./myobserver')
 
 class Client {
   constructor (centralIp, centralPort) {
@@ -10,19 +11,19 @@ class Client {
 
     this.messageBuffers = new Map()
 
-    this.supervisor = null
+    this.observer = null
     this.handler = null
   }
 
-  set supervisorObject(supervisor){
-    this.supervisor = supervisor
+  set observerObject(observer){ //potrzebne w serverze
+    this.observer = observer
   }
 
-  set handlerObject(handler){
+  set handlerObject(handler){ //potrzebne w serverze
     this.handler = handler
   }
 
-  get remoteConnectionsIP () {
+  get remoteConnectionsIP () { //potrzebne w serverze
     return this.connections.map(x => x.remoteAddress)
   }
 
@@ -75,22 +76,38 @@ class Client {
 
     socket.on('error', (error) => {
       this.connections = this.connections.filter(x => x.remoteAddress === ip)
-      this.supervisor.notifyIPs()
+      this.observer.notifyIPs()
     })
 
     socket.on('close', () => {
       this.connections = this.connections.filter(x => x.remoteAddress === ip)
       console.log('Client closed: ' + ip)
-      this.supervisor.notifyIPs()
+      this.observer.notifyIPs()
     })
   }
 
   _disconnectFromClient (ip) {
     const socket = this.connections.find(x => x.remoteAddress === ip)
     this.connections = this.connections.filter(x => x.remoteAddress === ip)
-    this.supervisor.notifyIPs()
+    this.observer.notifyIPs()
     socket.end()
   }
+
+  sendToIP(ip, msg){ //przekopiowac do client servera
+    for(socket in connections){
+      if ( socket.remoteAddress == ip ){
+        socket.write(msg)
+        break
+      }
+    }
+  }
+
+  broadcast(msg){ //tez sie przyda w serverze -- trzeba zrobic szybko fabryke
+    connections.forEach( socket => {
+      socket.write(msg)
+    })
+  }
+
 }
 
 module.exports = Client

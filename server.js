@@ -1,4 +1,5 @@
 const net = require('net')
+//const MyObserver = require('./myobserver') do servera clientowego doniesc
 
 class Server {
   constructor (address, port) {
