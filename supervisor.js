@@ -100,7 +100,45 @@ class Supervisor extends MyObserver {
 		this.server.broadcast(msg)
 	}
 
-	runCalculations(){
+	runCalculations(filepath){
 		//funcka rozpoczynajaca całe dziadostwo xD - ta karuzele sp... xD
+		var bitmap = new ImageJS.Bitmap()
+		bitmap.readFile(filepath)
+			.then(() => {
+				this.broadcast(JSON.stringify({
+					type: 'dimensions',
+					XX: '1000'*bitmap.width,
+					YY: '1000'*bitmap.height
+				}))
+				var hAmount = 4
+				var vAmount = 4
+				var lastHPiece = 0
+				for(i = 0; i < hAmount; ++i){
+					var lastVPiece = 0
+					var newHPiece = Math.floor(bitmap.width*(i+1)/hAmount)
+					if( i == hAmount - 1 ){
+						newHPiece = bitmap.width
+					}
+					for(j = 0; j < vAmount; ++j){
+						var newVPiece = Math.floor(bitmap.height*(i+1)/vAmount)
+						if( j =  vAmount - 1){
+							newVPiece = bitmap.height
+						}
+						var cropped = bitmap.crop({top: lastVPiece+1, left: lastHPiece+1, width: (newHPiece-lastHPiece), height: (newVPiece-lastVPiece)})
+						this.saveCrop(cropped, lastHPiece+1, lastVPiece+1) // zapisuje sie asynchronicznie
+						lastVPiece = newVPiece
+					}
+					lastHPiece = newHPiece
+				}
+				
+			})
+	}
+
+
+	saveCrop(crop, xs, ys){
+		cropped.writeFile((lastHPiece+1)+'_'+(lastVPiece+1)+'.jpg')
+			.then(()=>{
+				this.tasks.push({x: xs, y: ys})
+			})
 	}
 }
