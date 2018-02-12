@@ -47,9 +47,10 @@ class Supervisor extends MyObserver {
 		if(this.isDelegatingTasks){
 			this.ipMap.set(ip, this.tasks[0])
 			this.tasks.shift()
+			var pic = fs.readFileSync('./crops/' + this.ipMap.get(ip).x + '_' + this.ipMap.get(ip).y + '.jpg')
 			this.sendToIP(ip, JSON.stringify({
 				type: 'toScale',
-				image: 'tmp'//wczytać obrazek do base'a
+				image: new Buffer(pic).toString('base64'),//wczytać obrazek do base'a
 				xs: this.ipMap.get(ip).x,
 				xs: this.ipMap.get(ip).y,
 				scale: 1000
@@ -78,6 +79,18 @@ class Supervisor extends MyObserver {
 				    	XX: scaledImage.width,
 				    	YY: scaledImage.height
 				    }))
+				    //wyslac zadanie jesli jakies jest
+				    if(this.tasks != []){
+				    	task = this.tasks.shift()
+				    	var pic = fs.readFileSync('./crops/' + task.x + '_' + task.y + '.jpg')
+				    	this.sendToIP(elem, JSON.stringify({
+				    		type: 'toScale',
+				    		image: new Buffer(pic).toString('base64'),
+				    		xs: task.x,
+				    		ys: task.y,
+				    		scale: 1000
+				    	}))
+					}
 				}
 			}
 		})
@@ -110,6 +123,7 @@ class Supervisor extends MyObserver {
 					XX: '1000'*bitmap.width,
 					YY: '1000'*bitmap.height
 				}))
+				this.scaledImage = new ImageJS.Bitmap({width: 1000*bitmap.width, height: 1000*bitmap.height}) //mało co zapomniałem o tym
 				var hAmount = 4
 				var vAmount = 4
 				var lastHPiece = 0
@@ -130,15 +144,36 @@ class Supervisor extends MyObserver {
 					}
 					lastHPiece = newHPiece
 				}
-				
 			})
 	}
 
 
-	saveCrop(crop, xs, ys){
-		cropped.writeFile((lastHPiece+1)+'_'+(lastVPiece+1)+'.jpg')
+	saveCrop(crop, x, y){
+		cropped.writeFile('./crops/' + x + '_' + y + '.jpg')
 			.then(()=>{
-				this.tasks.push({x: xs, y: ys})
+				var flag = false
+				for(ipAddress in ips){
+					if(ipMap.get(ipAddress) == {}){
+						var pic = fs.readFileSync('./crops/' + x + '_' + y + '.jpg')
+						this.sendToIP(ipAddress, JSON.stringify({
+							type: 'toScale',
+							image: new Buffer(pic).toString('base64'),
+							xs: x,
+							ys: y,
+							scale: 1000
+						}))
+						this.ipMap.set(ipAddress, {x: x, y: y})
+						flag = true
+						break
+					}
+
+				}
+				if(!flag)
+					this.tasks.push({x: xs, y: ys})
 			})
+	}
+
+	runBrowserToView(){
+		//potrzebny pakiet powershell do otworzenia przegladarki i http servera
 	}
 }
