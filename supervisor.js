@@ -34,18 +34,33 @@ class Supervisor{
 	}
 
 	updateImage(img, xs, ys){
-		for(var i = 0; i < img.width; i++){
-			for(var j = 0; j < img.height; j++){
-				scaledImage
+		for(var i = 1; i <= img.width; i++){
+			for(var j = 1; j <= img.height; j++){
+				scaledImage.setPixel(xs+i-1, ys+j-1, img.getPixel(i,j))
 			}
 		}
 	}
 
 	notifyTaskDone(ip){
-		
+		this.ipMap.set(ip, this.task[0])
+		this.tasks.shift()
 	}
 
 	notifyIPs(){
-		
+		var currentIPs = this.client.remoteConnectionsIP.concat(this.server.clientAdresses)
+		var oldIPs = arrayDiff(this.ips, newIPs)
+		var newIPs = arrayDiff(newIPs, this.ips)
+		newIPs.foreach(elem => {
+			if( this.ipMap.get(elem) == undefined ){
+				this.ipMap.set(elem, {})
+			}
+		})
+		oldIPs.foreach(elem =>{
+			if(this.ipMap.get(elem) != {}){
+				this.tasks.push(this.ipMap.get(elem))
+				this.ipMap.delete(elem)
+			}
+		})
+		this.ips = currentIPs
 	}
 }
