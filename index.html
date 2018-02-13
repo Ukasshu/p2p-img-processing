@@ -10,19 +10,18 @@
   <link rel="shortcut icon" type="image/png" href="fav.png">
   <link href='https://fonts.googleapis.com/css?family=Maven Pro' rel='stylesheet'>
   <style>
-    body, h1, p {font-family: 'Maven Pro'; color: white; background-color: black; text-align: center}
-    #main {margin-left: 120px; margin-right: 120px}
+    body, h1, p {font-family: 'Maven Pro'; color: white; background-color: black;display: flex; align-items: center; justify-content: center;}
+    #main {margin-left: 120px; margin-right: 120px; max-width: 80vw; max-height: 80vh;}
+    #main img {max-width: 100%; height: auto; max-height: 100%;}
   </style>
 
 </head>
   <meta http-equiv="Refresh" content="10" />
 <body>
   <div id="main">
-  <header id="home">
     <h1>This is image scaling tool.</h1>
     <p>The result image will be shown below.</p>
     <img src="./scaledImage.jpg" alt="Scaled Image">
-  </header>
   </div>
 </body>
 </html>
