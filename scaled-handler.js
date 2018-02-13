@@ -15,7 +15,7 @@ class ScaledHandler extends Handler{
 			fs.writeFileSync('./scaled' + request.x + '_' + request.y + '.jpg', new Buffer(request.image, 'base64'))
 			var bitmap = new ImageJS.Bitmap()
 			bitmap.readFile('./scaled' + request.x + '_' + request.y + '.jpg')
-				.then(function () {
+				.then( () => {
 					this.supervisor.updateImage(bitmap, request.x, request.y)
 					fs.unlink('./scaled' + request.x + '_' + request.y + '.jpg', ()=>{})
 				})
