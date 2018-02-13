@@ -1,5 +1,6 @@
 const Handler = require('./handler')
 
+const fs = require('fs')
 const ImageJS = require('imagejs')
 
 class ScaledHandler extends Handler{
