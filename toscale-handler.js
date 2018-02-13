@@ -10,9 +10,6 @@ class ToScaleHandler extends Handler {
 	}
 
 	handle(request){
-		console.log(request.type)
-		console.log(request.type == 'toScale')
-		console.log(this.successor == null)
 		if(request.type == "toScale"){
 			fs.writeFile('./toScale' + request.xs + '_' + request.ys + '.jpg', new Buffer(request.image, 'base64'), (err)=>{})
 			var bitmap = new ImageJS.Bitmap()

@@ -10,7 +10,6 @@ class DimensionsHandler extends Handler{
 	}
 
 	handle(request){
-		console.log(request.type)
 		if(request.type == 'dimensions'){
 			this.supervisor.scaledImage = new ImageJS.Bitmap({width: request.XX, height: request.YY})
 			this.supervisor.scaledImage.writeFile('./scaledImage.jpg', {quality: 90})
