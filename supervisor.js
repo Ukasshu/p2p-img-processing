@@ -59,7 +59,7 @@ class Supervisor extends MyObserver {
 				type: 'toScale',
 				image: new Buffer(pic).toString('base64'),//wczytać obrazek do base'a
 				xs: this.ipMap.get(ip).x,
-				xs: this.ipMap.get(ip).y,
+				ys: this.ipMap.get(ip).y,
 				scale: 100
 			}))
 		}
