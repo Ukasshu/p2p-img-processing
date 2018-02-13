@@ -56,19 +56,19 @@ class Client {
         socket.connect(this.centralPort, ip, () => {
             this.connections.push(socket)
             this.messageBuffers.set(socket.remoteAddress, "")
-      
+
             console.log('Connected to ' + ip)
             socket.write('Hello from ' + socket.localAddress)
         })
 
         socket.on('data', (data) => {
             console.log(data.toString())
-            var msg = messageBuffers.get(socket.remoteAddress) + data.toString() 
+            var msg = messageBuffers.get(socket.remoteAddress) + data.toString()
             if(msg.slice(-1) == '}'){
                 this.messageBuffers.set(socket.remoteAddress, "")
                 var msgObj = JSON.parse(msg)
                 msgObj.ip = socket.remoteAddress
-                this.handler.handle(msgObj)  
+                this.handler.handle(msgObj)
             }
             else{
                 messageBuffers.set(socket.remoteAddress, msg)
@@ -105,7 +105,7 @@ class Client {
     }
 
     broadcast(msg){ //tez sie przyda w serverze -- trzeba zrobic szybko fabryke //done
-        connections.forEach( socket => {
+        this.connections.forEach( socket => {
             socket.write(msg)
         })
     }
