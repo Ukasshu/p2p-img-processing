@@ -46,22 +46,27 @@ class Supervisor extends MyObserver {
 				this.scaledImage.setPixel(xs+i-1, ys+j-1, img.getPixel(i,j))
 			}
 		}
-		this.scaledImage.writeFile('./scaledImage.jpg', {quality: 90})
-				.then(() => {})
+		this.scaledImage.writeFile('./tmpImage.jpg', {quality: 90})
+				.then(() => {
+					fs.unlinkSync('./scaledImage.jpg')
+					fs.renameSync('./tmpImage.jpg', './scaledImage.jpg')
+				})
 	}
 
 	notifyTaskDone(ip){
 		if(this.isDelegatingTasks){
-			this.ipMap.set(ip, this.tasks[0])
-			this.tasks.shift()
-			var pic = fs.readFileSync('./crops/' + this.ipMap.get(ip).x + '_' + this.ipMap.get(ip).y + '.jpg')
-			this.sendToIP(ip, JSON.stringify({
-				type: 'toScale',
-				image: new Buffer(pic).toString('base64'),//wczytać obrazek do base'a
-				xs: this.ipMap.get(ip).x,
-				ys: this.ipMap.get(ip).y,
-				scale: 100
-			}))
+			if(this.tasks.length != 0){
+				this.ipMap.set(ip, this.tasks[0])
+				this.tasks.shift()
+				var pic = fs.readFileSync('./crops/' + this.ipMap.get(ip).x + '_' + this.ipMap.get(ip).y + '.jpg')
+				this.sendToIP(ip, JSON.stringify({
+					type: 'toScale',
+					image: new Buffer(pic).toString('base64'),//wczytać obrazek do base'a
+					xs: this.ipMap.get(ip).x,
+					ys: this.ipMap.get(ip).y,
+					scale: 100
+				}))
+			}
 		}
 		else{
 			//something is no yes
@@ -188,7 +193,7 @@ class Supervisor extends MyObserver {
 				}*/
 			})
 			this.tasks.push({x: x, y: y})
-			setInterval(()=>{this.giveAwayTasks()}, 10000)
+			setTimeout(()=>{this.giveAwayTasks()}, 7000)
 	}
 
 	runBrowserToView(){
