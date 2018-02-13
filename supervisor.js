@@ -168,7 +168,7 @@ class Supervisor extends MyObserver {
 				}
 			})
 			this.isDelegatingTasks = true
-			setTimeout(() => {this.takeAndCompleteTask()}, 5000) //moze nie zadzialac jesli zadne zadanie nie zostanie wstawione to tablicy
+			//setTimeout(() => {this.takeAndCompleteTask()}, 5000) //moze nie zadzialac jesli zadne zadanie nie zostanie wstawione to tablicy
 	}
 
 
@@ -219,7 +219,7 @@ class Supervisor extends MyObserver {
 		}
 	}
 
-	takeAndCompleteTask(){
+	takeAndCompleteTask(){ //meotda do wyrzucenia
 		if(this.tasks.length !== 0){
 			var task = this.tasks.shift()
 			var pic = fs.readFileSync('./crops/'+task.x+'_'+task.y+'.jpg')
