@@ -96,9 +96,9 @@ class Client {
     }
 
     sendToIP(ip, msg){ //przekopiowac do client servera
-        for(var socket in connections){
-            if ( socket.remoteAddress == ip ){
-                socket.write(msg)
+        for(var i in this.connections){
+            if ( this.connections[i].remoteAddress == ip ){
+                this.connections[i].write(msg)
                 break
             }
         }

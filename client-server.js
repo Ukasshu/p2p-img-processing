@@ -73,9 +73,9 @@ class ClientServer extends Server {
 
 
   	sendToIP(ip, msg){
-  		for(var socket in this.clients){
-  			if(socket.remoteAddress == ip){
-  				socket.write(msg)
+  		for(var i in this.clients){
+  			if(this.clients[i].remoteAddress == ip){
+  				this.client[i].write(msg)
   				break
   			}
   		}

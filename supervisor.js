@@ -88,7 +88,7 @@ class Supervisor extends MyObserver {
 				    	YY: scaledImage.height
 				    }))
 				    //wyslac zadanie jesli jakies jest
-				    if(this.tasks != []){
+				    if(this.tasks.length != 0){
 				    	task = this.tasks.shift()
 				    	var pic = fs.readFileSync('./crops/' + task.x + '_' + task.y + '.jpg')
 				    	this.sendToIP(elem, JSON.stringify({
@@ -103,7 +103,7 @@ class Supervisor extends MyObserver {
 			}
 		})
 		oldIPs.forEach(elem =>{
-			if(this.ipMap.get(elem) != {}){
+			if(!this.ipMap.get(elem).hasOwnProperty('x')){
 				this.tasks.push(this.ipMap.get(elem))
 				this.ipMap.delete(elem)
 			}
@@ -197,24 +197,24 @@ class Supervisor extends MyObserver {
 
 	giveAwayTasks(){
 		console.log('gat')
-		for(var ip in this.ips){
-			if(this.ipMap.get(ip) == {}){
-				var task = tasks.shift()
+		for(var i in this.ips){
+			if(! this.ipMap.get(this.ips[i]).hasOwnProperty('x')){
+				var task = this.tasks.shift()
 				var pic = fs.readFileSync('./crops/' + task.x + '_' + task.y + '.jpg')
-				this.sendToIP(ip, JSON.stringify({
+				this.sendToIP(this.ips[i], JSON.stringify({
 					type: 'toScale',
 					image: new Buffer(pic).toString('base64'),
-					xs: x,
-					ys: y,
+					xs: task.x,
+					ys: task.y,
 					scale: 100
 				}))
-				this.ipMap.set(ip, task)
+				this.ipMap.set(this.ips[i], task)
 			}
 		}
 	}
 
 	takeAndCompleteTask(){
-		if(this.tasks != []){
+		if(this.tasks.length !== 0){
 			var task = this.tasks.shift()
 			var pic = fs.readFileSync('./crops/'+task.x+'_'+task.y+'.jpg')
 			this.toScaleHandler.handle({
