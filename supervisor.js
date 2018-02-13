@@ -74,6 +74,7 @@ class Supervisor extends MyObserver {
 	}
 
 	notifyIPs(){
+		console.log('IPS')
 		var currentIPs = this.client.remoteConnectionsIP.concat(this.server.clientAdresses)
 		var oldIPs = arrayDiff(this.ips, currentIPs)
 		var newIPs = arrayDiff(currentIPs, this.ips)
