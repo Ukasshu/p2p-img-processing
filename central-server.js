@@ -1,5 +1,7 @@
 const Server = require('./server')
 
+const net = require('net')
+
 class CentralServer extends Server {
   start () {
     this.start(this._broadcastLimited.bind(this),

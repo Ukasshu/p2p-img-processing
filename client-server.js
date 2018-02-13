@@ -1,6 +1,8 @@
 const Server = require('./server')
 const MyObserver = require('./myobserver')
 
+const net = require('net')
+
 class ClientServer extends Server {
 	constructor(address, port){
 		super(address, port)
