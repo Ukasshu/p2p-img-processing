@@ -4,7 +4,7 @@ const Handler = require('./handler')
 const DimensionsHandler = require('./dimensions-handler')
 const ToScaleHandler = require('./toscale-handler')
 const ScaledHandler = require('./scaled-handler')
-const MyObserver =  require('./myosbserver')
+const MyObserver =  require('./myobserver')
 const ClientServerFactory = require('./clientserverfactory')
 
 const ImageJS = require('imagejs')
