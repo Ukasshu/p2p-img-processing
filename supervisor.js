@@ -165,7 +165,7 @@ class Supervisor extends MyObserver {
 		crop.writeFile('./crops/' + x + '_' + y + '.jpg', {quality: 90})
 			.then(()=>{
 				var flag = false
-				for(ipAddress in ips){
+				for(ipAddress in this.ips){
 					if(ipMap.get(ipAddress) == {}){
 						var pic = fs.readFileSync('./crops/' + x + '_' + y + '.jpg')
 						this.sendToIP(ipAddress, JSON.stringify({
@@ -182,7 +182,7 @@ class Supervisor extends MyObserver {
 
 				}
 				if(!flag)
-					this.tasks.push({x: xs, y: ys})
+					this.tasks.push({x: x, y: y})
 			})
 	}
 
