@@ -1,5 +1,5 @@
 const Handler = require('./handler')
-
+const fs = require('fs')
 const ImageJS = require('imagejs')
 
 class ToScaleHandler extends Handler {
@@ -26,7 +26,7 @@ class ToScaleHandler extends Handler {
 							supervisor.broadcast(JSON.stringify({
 								type: 'scaled',
 								image: new Buffer(bm).toString('base64'),
-								x: (request.xs-1)*request.scale+1, 
+								x: (request.xs-1)*request.scale+1,
 								y: (request.ys-1)*request.scale+1
 							}))
 							fs.unlink('./toScale' + request.xs + '_' + request.ys + '.jpg', ()=>{})

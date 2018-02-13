@@ -63,7 +63,7 @@ class Client {
 
         socket.on('data', (data) => {
             console.log(data.toString())
-            var msg = messageBuffers.get(socket.remoteAddress) + data.toString()
+            var msg = this.messageBuffers.get(socket.remoteAddress) + data.toString()
             if(msg.slice(-1) == '}'){
                 this.messageBuffers.set(socket.remoteAddress, "")
                 var msgObj = JSON.parse(msg)
@@ -71,7 +71,7 @@ class Client {
                 this.handler.handle(msgObj)
             }
             else{
-                messageBuffers.set(socket.remoteAddress, msg)
+                this.messageBuffers.set(socket.remoteAddress, msg)
             }
             //zaimplementowac to po drugiej stronie łącznosci
         })
