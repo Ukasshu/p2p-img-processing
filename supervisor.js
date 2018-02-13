@@ -158,7 +158,7 @@ class Supervisor extends MyObserver {
 					lastHPiece = newHPiece
 				}
 			})
-			this.takeAndCompleteTask() //moze nie zadzialac jesli zadne zadanie nie zostanie wstawione to tablicy
+			//this.takeAndCompleteTask() //moze nie zadzialac jesli zadne zadanie nie zostanie wstawione to tablicy
 	}
 
 
