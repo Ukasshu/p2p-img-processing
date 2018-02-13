@@ -144,8 +144,8 @@ class Supervisor extends MyObserver {
 					YY: 100*bitmap.height
 				})
 
-				var hAmount = 4
-				var vAmount = 4
+				var hAmount = 8
+				var vAmount = 8
 				var lastHPiece = 0
 				for(var i = 0; i < hAmount; i++){
 					var lastVPiece = 0
