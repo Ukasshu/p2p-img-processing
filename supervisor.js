@@ -183,15 +183,31 @@ class Supervisor extends MyObserver {
 						break
 					}
 				}*/
-
-				//if(!flag)
-			  this.tasks.push({x: x, y: y})
 			})
+			this.tasks.push({x: x, y: y})
+			setTimeout(()=>{this.giveAwayTasks()}, 10000)
 	}
 
 	runBrowserToView(){
 		//potrzebny pakiet powershell do otworzenia przegladarki i http servera
 		opn('./index.html')
+	}
+
+	giveAwayTasks(){
+		for(var ip in this.ips){
+			if(this.ipMap.get(ip) == {}){
+				var task = tasks.shift()
+				var pic = fs.readFileSync('./crops/' + task.x + '_' + task.y + '.jpg')
+				this.sendToIP(ip, JSON.stringify({
+					type: 'toScale',
+					image: new Buffer(pic).toString('base64'),
+					xs: x,
+					ys: y,
+					scale: 100
+				}))
+				this.ipMap.set(ip, task)
+			}
+		}
 	}
 
 	takeAndCompleteTask(){
