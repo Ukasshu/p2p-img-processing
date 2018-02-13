@@ -43,7 +43,7 @@ class Supervisor extends MyObserver {
 	updateImage(img, xs, ys){
 		for(var i = 1; i <= img.width; i++){
 			for(var j = 1; j <= img.height; j++){
-				scaledImage.setPixel(xs+i-1, ys+j-1, img.getPixel(i,j))
+				this.scaledImage.setPixel(xs+i-1, ys+j-1, img.getPixel(i,j))
 			}
 		}
 		supervisor.scaledImage.writeFile('./scaledImage.jpg', {quality: 90})
