@@ -168,7 +168,7 @@ class Supervisor extends MyObserver {
 				}
 			})
 			this.isDelegatingTasks = true
-			//this.takeAndCompleteTask() //moze nie zadzialac jesli zadne zadanie nie zostanie wstawione to tablicy
+			setTimeout(() => {this.takeAndCompleteTask()}, 5000) //moze nie zadzialac jesli zadne zadanie nie zostanie wstawione to tablicy
 	}
 
 
@@ -232,7 +232,6 @@ class Supervisor extends MyObserver {
 			})
 			this.takeAndCompleteTask()
 		}
-
 	}
 }
 
