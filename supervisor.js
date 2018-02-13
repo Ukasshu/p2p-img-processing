@@ -8,6 +8,7 @@ const MyObserver =  require('./mysobserver')
 
 const ImageJS = require('imagejs')
 const fs = require('fs')
+const opn = require('opn')
 
 class Supervisor extends MyObserver {
 	constructor(){
@@ -184,6 +185,7 @@ class Supervisor extends MyObserver {
 
 	runBrowserToView(){
 		//potrzebny pakiet powershell do otworzenia przegladarki i http servera
+		opn('./index.html')
 	}
 
 	takeAndCompleteTask(){
@@ -202,3 +204,5 @@ class Supervisor extends MyObserver {
 		
 	}
 }
+
+module.exports = Supervisor

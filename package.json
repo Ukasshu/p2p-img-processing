@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/Ukasshu/p2p-img-processing/issues"
   },
-  "homepage": "https://github.com/Ukasshu/p2p-img-processing#readme"
+  "homepage": "https://github.com/Ukasshu/p2p-img-processing#readme",
+  "dependencies": {
+    "node-powershell": "^3.3.1",
+    "opn": "^5.2.0"
+  }
 }

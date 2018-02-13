@@ -7,3 +7,5 @@ class ClientServerFactory extends AbstractFactory {
 	}
 
 }
+
+module.exports = ClientServerFactory
