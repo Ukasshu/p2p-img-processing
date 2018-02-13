@@ -109,6 +109,7 @@ class Supervisor extends MyObserver {
 			}
 		})
 		this.ips = currentIPs
+		console.log(this.ips)
 	}
 
 	sendToIP(ip, msg){
