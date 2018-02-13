@@ -14,7 +14,7 @@ class DimensionsHandler extends Handler{
 			this.supervisor.scaledImage.writeFile('./scaledImage.jpg', {quality: 90})
 				.then(() => {})
 		}
-		else if (successor)
+		else if (this.successor)
 			this.successor.handle(request)
 		else
 			console.log('Unhandled request')

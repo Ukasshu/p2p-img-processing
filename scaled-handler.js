@@ -14,12 +14,12 @@ class ScaledHandler extends Handler{
 			var bitmap = new ImageJS.Bitmap()
 			bitmap.readFile('./scaled' + request.x + '_' + request.y + '.jpg')
 				.then(function () {
-					supervisor.updateImage(bitmap, request.x, request.y)
+					this.supervisor.updateImage(bitmap, request.x, request.y)
 					fs.unlink('./scaled' + request.x + '_' + request.y + '.jpg', ()=>{})
 				})
 		}
-		else if(successor){
-			successor.handle(request)
+		else if(this.successor){
+			this.successor.handle(request)
 		}
 		else{
 			console.log('Unhandled request')
