@@ -77,7 +77,7 @@ class Supervisor extends MyObserver {
 		var currentIPs = this.client.remoteConnectionsIP.concat(this.server.clientAdresses)
 		var oldIPs = arrayDiff(this.ips, currentIPs)
 		var newIPs = arrayDiff(currentIPs, this.ips)
-		newIPs.foreach(elem => {
+		newIPs.forEach(elem => {
 			if( this.ipMap.get(elem) == undefined ){
 				this.ipMap.set(elem, {})
 				if(this.isDelegatingTasks){
