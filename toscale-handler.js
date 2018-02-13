@@ -14,7 +14,7 @@ class ToScaleHandler extends Handler {
 			fs.writeFile('./toScale' + request.xs + '_' + request.ys + '.jpg', new Buffer(request.image, 'base64'), (err)=>{})
 			var bitmap = new ImageJS.Bitmap()
 			bitmap.readFile('./toScale' + request.xs + '_' + request.ys + '.jpg')
-				.then(function () {
+				.then( () => {
 					var thumbnail = bitmap.resize({
 						width: (bitmap.width*request.scale),
 						height: (bitmap.height*request.scale),
@@ -22,7 +22,7 @@ class ToScaleHandler extends Handler {
 					})
 					this.supervisor.updateImage(thumbnail, (request.xs-1)*request.scale+1, (request.ys-1)*request.scale+1)
 					thumbnail.writeFile('./toScale' + request.xs + '_' + request.ys + '.jpg', {quality: 90})
-						.then(function() {
+						.then( () => {
 							var bm = fs.readFileSync('./toScale' + request.xs + '_' + request.ys + '.jpg')
 							this.supervisor.broadcast(JSON.stringify({
 								type: 'scaled',
