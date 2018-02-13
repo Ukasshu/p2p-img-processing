@@ -8,3 +8,5 @@ class CentralServerFactory extends AbstractFactory{
 	}
 
 }
+
+module.exports = CentralServerFactory

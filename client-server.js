@@ -78,3 +78,5 @@ class ClientServer extends Server {
   		}
   	}
 }
+
+module.exports = ClientServer
