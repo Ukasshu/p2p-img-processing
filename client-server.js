@@ -31,7 +31,7 @@ class ClientServer extends Server {
 
       this.clients.push(socket)
 
-      connectFn(client, this)
+      //connectFn(client, this)
 
       socket.on('data', (data) => {
         //dataFn(client, this, data.toString())
