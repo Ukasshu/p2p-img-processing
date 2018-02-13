@@ -1,6 +1,6 @@
 const Server = require('./server')
 
-class Central extends Server {
+class CentralServer extends Server {
   start () {
     super.start(this._broadcastLimited.bind(this),
       this._broadcastLimited.bind(this),
@@ -16,6 +16,3 @@ class Central extends Server {
     )
   }
 }
-
-const central = new Central(process.argv[2], Number(process.argv[3]))
-central.start()

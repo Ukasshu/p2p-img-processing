@@ -50,9 +50,9 @@ class Server {
     connection.listen(this.port, this.address)
   }
 
-  broadcast (message, clientSender) {
+  broadcast (msg) {
     this.clients.forEach(client => {
-      client.write(message)
+      client.write(msg)
     })
   }
 }

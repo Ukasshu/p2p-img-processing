@@ -9,8 +9,11 @@ class DimensionsHandler extends Handler{
 	}
 
 	handle(request){
-		if(request.type == 'dimensions')
+		if(request.type == 'dimensions'){
 			supervisor.scaledImage = new ImageJS.Bitmap({width: request.XX, height: request.YY})
+			supervisor.scaledImage.writeFile('./scaledImage.jpg', {quality: 90})
+				.then(() => {})
+		}
 		else if (successor)
 			successor.handle(request)
 		else

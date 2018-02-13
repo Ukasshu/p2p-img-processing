@@ -7,6 +7,7 @@ const ScaledHandler = require('./scaled-handler')
 const MyObserver =  require('./mysobserver')
 
 const ImageJS = require('imagejs')
+const fs = require('fs')
 
 class Supervisor extends MyObserver {
 	constructor(){
@@ -22,12 +23,12 @@ class Supervisor extends MyObserver {
 
 		this.dimensionsHandler = new DimensionsHandler(this, null)
 		this.scaledHandler = new ScaledHandler(this, this.dimensionsHandler)
-		this.toScaleHandler = new toScaleHandler(this, this.scaledHandler)
+		this.toScaleHandler = new ToScaleHandler(this, this.scaledHandler)
 		
 		this.server.handlerObject = this.toScaleHandler
 		this.client.handlerObject = this.toScaleHandler
 		this.server.observerObject = this
-		this.server.observerObject = this
+		this.client.observerObject = this
 		
 
 
@@ -55,7 +56,7 @@ class Supervisor extends MyObserver {
 				image: new Buffer(pic).toString('base64'),//wczytać obrazek do base'a
 				xs: this.ipMap.get(ip).x,
 				xs: this.ipMap.get(ip).y,
-				scale: 1000
+				scale: 100
 			}))
 		}
 		else{
@@ -90,7 +91,7 @@ class Supervisor extends MyObserver {
 				    		image: new Buffer(pic).toString('base64'),
 				    		xs: task.x,
 				    		ys: task.y,
-				    		scale: 1000
+				    		scale: 100
 				    	}))
 					}
 				}
@@ -122,14 +123,14 @@ class Supervisor extends MyObserver {
 			.then(() => {
 				this.broadcast(JSON.stringify({
 					type: 'dimensions',
-					XX: '1000'*bitmap.width,
-					YY: '1000'*bitmap.height
+					XX: 100*bitmap.width,
+					YY: 100*bitmap.height
 				}))
-				//this.scaledImage = new ImageJS.Bitmap({width: 1000*bitmap.width, height: 1000*bitmap.height}) //mało co zapomniałem o tym
+				//this.scaledImage = new ImageJS.Bitmap({width: 100*bitmap.width, height: 100*bitmap.height}) //mało co zapomniałem o tym
 				this.dimensionsHandler.handle({
 					type: 'dimensions',
-					XX: '1000'*bitmap.width,
-					YY: '1000'*bitmap.height
+					XX: 100*bitmap.width,
+					YY: 100*bitmap.height
 				})
 
 				var hAmount = 4
@@ -168,7 +169,7 @@ class Supervisor extends MyObserver {
 							image: new Buffer(pic).toString('base64'),
 							xs: x,
 							ys: y,
-							scale: 1000
+							scale: 100
 						}))
 						this.ipMap.set(ipAddress, {x: x, y: y})
 						flag = true
@@ -194,7 +195,7 @@ class Supervisor extends MyObserver {
 				image: new Buffer(pic).toString('base64'),
 				xs: task.x,
 				ys: tasks.y,
-				scale: 1000
+				scale: 100
 			})
 			this.takeAndCompleteTask()
 		}
