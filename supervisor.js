@@ -196,6 +196,7 @@ class Supervisor extends MyObserver {
 	}
 
 	giveAwayTasks(){
+		console.log('gat')
 		for(var ip in this.ips){
 			if(this.ipMap.get(ip) == {}){
 				var task = tasks.shift()
