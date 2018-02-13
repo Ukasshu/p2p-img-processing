@@ -35,7 +35,7 @@ class ClientServer extends Server {
 
       socket.on('data', (data) => {
         //dataFn(client, this, data.toString())
-        var msg = messageBuffers.get(socket.remoteAddress) + data.toString()
+        var msg = this.messageBuffers.get(socket.remoteAddress) + data.toString()
         if(msg.slice(-1) == '}'){
         	this.messageBuffers.set(socket.remoteAddress, "")
         	var msgObj = JSON.parse(msg)
@@ -43,7 +43,7 @@ class ClientServer extends Server {
         	this.handler.handle(msgObj)
         }
         else{
-        	messageBuffers.set(socket.remoteAddress, msg)
+        	this.messageBuffers.set(socket.remoteAddress, msg)
         }
 
       })
