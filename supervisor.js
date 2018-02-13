@@ -193,8 +193,8 @@ class Supervisor extends MyObserver {
 	}
 
 	takeAndCompleteTask(){
-		if(tasks != []){
-			task = tasks.shift()
+		if(this.tasks != []){
+			var task = this.tasks.shift()
 			var pic = fs.readFileSync('./crops/'+task.x+'_'+task.y+'.jpg')
 			this.toScaleHandler.handle({
 				type: 'toScale',
