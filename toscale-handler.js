@@ -36,7 +36,7 @@ class ToScaleHandler extends Handler {
 						})
 				})
 		}
-		else if(this.successor != null)
+		else if(this.successor)
 			this.successor.handle(request)
 		else
 			console.log("Unhandled request")

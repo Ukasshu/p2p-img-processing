@@ -14,8 +14,9 @@ class DimensionsHandler extends Handler{
 			this.supervisor.scaledImage = new ImageJS.Bitmap({width: request.XX, height: request.YY})
 			this.supervisor.scaledImage.writeFile('./scaledImage.jpg', {quality: 90})
 				.then(() => {})
+			this.supervisor.runBrowserToView()
 		}
-		else if (this.successor != null)
+		else if (this.successor)
 			this.successor.handle(request)
 		else
 			console.log('Unhandled request')

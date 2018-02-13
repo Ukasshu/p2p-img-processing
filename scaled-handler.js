@@ -19,7 +19,7 @@ class ScaledHandler extends Handler{
 					fs.unlink('./scaled' + request.x + '_' + request.y + '.jpg', ()=>{})
 				})
 		}
-		else if(this.successor != null){
+		else if(this.successor){
 			this.successor.handle(request)
 		}
 		else{
