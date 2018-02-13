@@ -155,7 +155,7 @@ class Supervisor extends MyObserver {
 						this.saveCrop(cropped, lastHPiece+1, lastVPiece+1) // zapisuje sie asynchronicznie
 						lastVPiece = newVPiece
 					}
-					
+
 					lastHPiece = newHPiece
 				}
 			})
@@ -167,7 +167,7 @@ class Supervisor extends MyObserver {
 		crop.writeFile('./crops/' + x + '_' + y + '.jpg', {quality: 90})
 			.then(()=>{
 				var flag = false
-				for(ipAddress in this.ips){
+				for(var ipAddress in this.ips){
 					if(ipMap.get(ipAddress) == {}){
 						var pic = fs.readFileSync('./crops/' + x + '_' + y + '.jpg')
 						this.sendToIP(ipAddress, JSON.stringify({
