@@ -168,7 +168,7 @@ class Supervisor extends MyObserver {
 			.then(()=>{
 				var flag = false
 				for(var ipAddress in this.ips){
-					if(ipMap.get(ipAddress) == {}){
+					if(this.ipMap.get(ipAddress) == {}){
 						var pic = fs.readFileSync('./crops/' + x + '_' + y + '.jpg')
 						this.sendToIP(ipAddress, JSON.stringify({
 							type: 'toScale',
