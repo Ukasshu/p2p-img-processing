@@ -4,7 +4,7 @@ const Handler = require('./handler')
 const DimensionsHandler = require('./dimensions-handler')
 const ToScaleHandler = require('./toscale-handler')
 const ScaledHandler = require('./scaled-handler')
-const MyObserver =  require('./mysobserver')
+const MyObserver =  require('./myosbserver')
 const ClientServerFactory = require('./clientserverfactory')
 
 const ImageJS = require('imagejs')
@@ -21,17 +21,17 @@ class Supervisor extends MyObserver {
 		this.ipMap = new Map() // K - ip, V - task
 		this.scaledImage = null
 		this.isDelegatingTasks  = false
-		
+
 
 		this.dimensionsHandler = new DimensionsHandler(this, null)
 		this.scaledHandler = new ScaledHandler(this, this.dimensionsHandler)
 		this.toScaleHandler = new ToScaleHandler(this, this.scaledHandler)
-		
+
 		this.server.handlerObject = this.toScaleHandler
 		this.client.handlerObject = this.toScaleHandler
 		this.server.observerObject = this
 		this.client.observerObject = this
-		
+
 
 
 		server.start(() => null, () => null, () => null, (c, s, data) => console.log(data))
@@ -67,7 +67,7 @@ class Supervisor extends MyObserver {
 			null
 		}
 		//trzeba dopisac wysylanie wiadomosci do socketu o podanym adresie ze ma cos robic
-		//potrzeba flagi ktora bedzie oznaczac supervisor'a ktory nadzoruje przetwarzanie aby nie wyslac od wszystkich klientow 
+		//potrzeba flagi ktora bedzie oznaczac supervisor'a ktory nadzoruje przetwarzanie aby nie wyslac od wszystkich klientow
 		//wymiarów obrazka aby client nie sfixował
 	}
 
@@ -193,7 +193,7 @@ class Supervisor extends MyObserver {
 		if(tasks != []){
 			task = tasks.shift()
 			var pic = fs.readFileSync('./crops/'+task.x+'_'+task.y+'.jpg')
-			this.toScaleHandler.handle({ 
+			this.toScaleHandler.handle({
 				type: 'toScale',
 				image: new Buffer(pic).toString('base64'),
 				xs: task.x,
@@ -202,7 +202,7 @@ class Supervisor extends MyObserver {
 			})
 			this.takeAndCompleteTask()
 		}
-		
+
 	}
 }
 
