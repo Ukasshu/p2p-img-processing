@@ -30,6 +30,7 @@ class ClientServer extends Server {
       this.messageBuffers.set(socket.remoteAddress, "")
 
       this.clients.push(socket)
+			this.observer.notifyIPs()
 
       //connectFn(client, this)
 
