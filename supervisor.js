@@ -140,13 +140,13 @@ class Supervisor extends MyObserver {
 				var hAmount = 4
 				var vAmount = 4
 				var lastHPiece = 0
-				for(i = 0; i < hAmount; ++i){
+				for(i = 0; i < hAmount; i++){
 					var lastVPiece = 0
 					var newHPiece = Math.floor(bitmap.width*(i+1)/hAmount)
 					if( i == hAmount - 1 ){
 						newHPiece = bitmap.width
 					}
-					for(j = 0; j < vAmount; ++j){
+					for(j = 0; j < vAmount; j++){
 						var newVPiece = Math.floor(bitmap.height*(i+1)/vAmount)
 						if( j =  vAmount - 1){
 							newVPiece = bitmap.height
