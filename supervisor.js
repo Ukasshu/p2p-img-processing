@@ -167,7 +167,7 @@ class Supervisor extends MyObserver {
 	saveCrop(crop, x, y){
 		crop.writeFile('./crops/' + x + '_' + y + '.jpg', {quality: 90})
 			.then(()=>{
-				var flag = false
+				/*var flag = false         //ten fragment nie działa
 				for(var ipAddress in this.ips){
 					if(this.ipMap.get(ipAddress) == {}){
 						var pic = fs.readFileSync('./crops/' + x + '_' + y + '.jpg')
@@ -182,10 +182,10 @@ class Supervisor extends MyObserver {
 						flag = true
 						break
 					}
+				}*/
 
-				}
-				if(!flag)
-					this.tasks.push({x: x, y: y})
+				//if(!flag)
+			  this.tasks.push({x: x, y: y})
 			})
 	}
 
