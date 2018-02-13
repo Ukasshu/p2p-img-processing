@@ -56,7 +56,7 @@ class Client {
         socket.connect(this.centralPort, ip, () => {
             this.connections.push(socket)
             this.messageBuffers.set(socket.remoteAddress, "")
-
+            this.observer.notifyIPs()
             console.log('Connected to ' + ip)
         //  socket.write('Hello from ' + socket.localAddress)
         })
