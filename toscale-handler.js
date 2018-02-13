@@ -11,7 +11,7 @@ class ToScaleHandler extends Handler {
 
 	handle(request){
 		if(request.type == "toScale"){
-			fs.writeFile('./toScale' + request.xs + '_' + request.ys + '.jpg', new Buffer(request.image, 'base64'), (err)=>{})
+			fs.writeFileSync('./toScale' + request.xs + '_' + request.ys + '.jpg', new Buffer(request.image, 'base64'))
 			var bitmap = new ImageJS.Bitmap()
 			bitmap.readFile('./toScale' + request.xs + '_' + request.ys + '.jpg')
 				.then( () => {
