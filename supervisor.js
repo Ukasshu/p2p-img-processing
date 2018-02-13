@@ -46,7 +46,7 @@ class Supervisor extends MyObserver {
 				this.scaledImage.setPixel(xs+i-1, ys+j-1, img.getPixel(i,j))
 			}
 		}
-		supervisor.scaledImage.writeFile('./scaledImage.jpg', {quality: 90})
+		this.scaledImage.writeFile('./scaledImage.jpg', {quality: 90})
 				.then(() => {})
 	}
 
