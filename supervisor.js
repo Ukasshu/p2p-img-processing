@@ -148,9 +148,10 @@ class Supervisor extends MyObserver {
 					}
 					for(var j = 0; j < vAmount; j++){
 						var newVPiece = Math.floor(bitmap.height*(i+1)/vAmount)
-						if( j ==  vAmount - 1){
+						/if( j ==  vAmount - 1){
 							newVPiece = bitmap.height
 						}
+						console.log(lastVPiece +' '+ newVPiece +' '+ lastHPiece +' '+ newHPiece +' '+ i +' '+ j)
 						var cropped = bitmap.crop({top: lastVPiece, left: lastHPiece, width: (newHPiece-lastHPiece), height: (newVPiece-lastVPiece)})
 						this.saveCrop(cropped, lastHPiece+1, lastVPiece+1) // zapisuje sie asynchronicznie
 						lastVPiece = newVPiece
