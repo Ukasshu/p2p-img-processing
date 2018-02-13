@@ -187,7 +187,7 @@ class Supervisor extends MyObserver {
 				}*/
 			})
 			this.tasks.push({x: x, y: y})
-			setTimeout(()=>{this.giveAwayTasks()}, 10000)
+			setInterval(()=>{this.giveAwayTasks()}, 10000)
 	}
 
 	runBrowserToView(){
