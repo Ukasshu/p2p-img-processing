@@ -58,7 +58,7 @@ class Client {
             this.messageBuffers.set(socket.remoteAddress, "")
 
             console.log('Connected to ' + ip)
-            socket.write('Hello from ' + socket.localAddress)
+        //  socket.write('Hello from ' + socket.localAddress)
         })
 
         socket.on('data', (data) => {
