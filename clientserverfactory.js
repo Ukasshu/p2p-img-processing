@@ -1,9 +1,10 @@
 const AbstractFactory = require('./abstractfactory')
+const ClientServer = require('./client-server')
 
 class ClientServerFactory extends AbstractFactory {
 
 	create(ip){
-		return new ClientServerFactory(ip, 2137)
+		return new ClientServer(ip, 2137)
 	}
 
 }
