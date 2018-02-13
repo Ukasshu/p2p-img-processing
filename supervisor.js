@@ -155,6 +155,7 @@ class Supervisor extends MyObserver {
 						this.saveCrop(cropped, lastHPiece+1, lastVPiece+1) // zapisuje sie asynchronicznie
 						lastVPiece = newVPiece
 					}
+					
 					lastHPiece = newHPiece
 				}
 			})
