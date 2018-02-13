@@ -6,6 +6,7 @@ const ToScaleHandler = require('./toscale-handler')
 const ScaledHandler = require('./scaled-handler')
 const MyObserver =  require('./myobserver')
 const ClientServerFactory = require('./clientserverfactory')
+const arrayDiff = require('./array-diff')
 
 const ImageJS = require('imagejs')
 const fs = require('fs')
