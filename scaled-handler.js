@@ -16,6 +16,7 @@ class ScaledHandler extends Handler{
 				.then(function () {
 					supervisor.updateImage(bitmap, request.x, request.y)
 					fs.unlink('./scaled' + request.x + '_' + request.y + '.jpg', ()=>{})
+					supervisor.notifyTaskDone(request.ip)
 				})
 		}
 		else if(successor){

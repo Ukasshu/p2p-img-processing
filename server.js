@@ -8,7 +8,7 @@ class Server {
     this.clients = []
   }
 
-  get clientAddresses() {
+  get clientAddresses() { // w cliencie remoteConnectionsIp
     return this.clients.map(x => x.remoteAddress)
   }
 
