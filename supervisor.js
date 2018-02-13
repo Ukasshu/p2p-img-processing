@@ -5,15 +5,16 @@ const DimensionsHandler = require('./dimensions-handler')
 const ToScaleHandler = require('./toscale-handler')
 const ScaledHandler = require('./scaled-handler')
 const MyObserver =  require('./mysobserver')
+const ClientServerFactory = require('./clientserverfactory')
 
 const ImageJS = require('imagejs')
 const fs = require('fs')
 const opn = require('opn')
 
 class Supervisor extends MyObserver {
-	constructor(){
-		this.server = new Server(process.argv[4], Number(process.argv[3])) // zrobic fabryke i podmienic na jej wywolanie oraz start zamienic na start bez argumentowe
-		this.client = new Client(process.argv[2], Number(process.argv[3]))
+	constructor(serverIP, myIP){
+		this.server = new ClientServerFactory().create(myIP) // zrobic fabryke i podmienic na jej wywolanie oraz start zamienic na start bez argumentowe
+		this.client = new Client(serverIP)
 
 		this.ips = []
 		this.tasks = []

@@ -4,9 +4,9 @@ const arrayIntersection = require('./array-intersection')
 const MyObserver = require('./myobserver')
 
 class Client {
-    constructor (centralIp, centralPort) {
+    constructor (centralIp) {
         this.centralIp = centralIp
-        this.centralPort = centralPort
+        this.centralPort = 2137
         this.connections = []
 
         this.messageBuffers = new Map()
