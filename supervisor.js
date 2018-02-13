@@ -13,6 +13,7 @@ const opn = require('opn')
 
 class Supervisor extends MyObserver {
 	constructor(serverIP, myIP){
+		super()
 		this.server = new ClientServerFactory().create(myIP) // zrobic fabryke i podmienic na jej wywolanie oraz start zamienic na start bez argumentowe
 		this.client = new Client(serverIP)
 
@@ -34,8 +35,8 @@ class Supervisor extends MyObserver {
 
 
 
-		server.start(() => null, () => null, () => null, (c, s, data) => console.log(data))
-		client.start()
+		this.server.start(() => null, () => null, () => null, (c, s, data) => console.log(data))
+		this.client.start()
 	}
 
 	updateImage(img, xs, ys){
