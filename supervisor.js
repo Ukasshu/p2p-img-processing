@@ -151,7 +151,7 @@ class Supervisor extends MyObserver {
 						if( j =  vAmount - 1){
 							newVPiece = bitmap.height
 						}
-						var cropped = bitmap.crop({top: lastVPiece+1, left: lastHPiece+1, width: (newHPiece-lastHPiece), height: (newVPiece-lastVPiece)})
+						var cropped = bitmap.crop({top: lastVPiece, left: lastHPiece, width: (newHPiece-lastHPiece), height: (newVPiece-lastVPiece)})
 						this.saveCrop(cropped, lastHPiece+1, lastVPiece+1) // zapisuje sie asynchronicznie
 						lastVPiece = newVPiece
 					}
@@ -162,7 +162,7 @@ class Supervisor extends MyObserver {
 
 
 	saveCrop(crop, x, y){
-		cropped.writeFile('./crops/' + x + '_' + y + '.jpg', {quality: 90})
+		crop.writeFile('./crops/' + x + '_' + y + '.jpg', {quality: 90})
 			.then(()=>{
 				var flag = false
 				for(ipAddress in ips){
