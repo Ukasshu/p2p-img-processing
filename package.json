@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Ukasshu/p2p-img-processing#readme",
   "dependencies": {
+    "imagejs": "0.0.9",
     "node-powershell": "^3.3.1",
     "opn": "^5.2.0"
   }

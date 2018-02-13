@@ -4,13 +4,13 @@ const net = require('net')
 
 class CentralServer extends Server {
   start () {
-    this.start(this._broadcastLimited.bind(this),
+    super.start(this._broadcastLimited.bind(this),
       this._broadcastLimited.bind(this),
       this._broadcastLimited.bind(this),
       () => null)
   }
 
-  start (connectFn, disconnectFn, errorFn, dataFn) {
+  /*start (connectFn, disconnectFn, errorFn, dataFn) {
     const connection = net.createServer((socket) => {
       let client = socket
       let clientAddress = socket.remoteAddress
@@ -42,7 +42,7 @@ class CentralServer extends Server {
     })
 
     connection.listen(this.port, this.address)
-  }
+  }*/
 
 
 
