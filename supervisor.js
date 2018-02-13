@@ -101,7 +101,7 @@ class Supervisor extends MyObserver {
 				}
 			}
 		})
-		oldIPs.foreach(elem =>{
+		oldIPs.forEach(elem =>{
 			if(this.ipMap.get(elem) != {}){
 				this.tasks.push(this.ipMap.get(elem))
 				this.ipMap.delete(elem)
