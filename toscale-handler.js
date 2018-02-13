@@ -9,7 +9,10 @@ class ToScaleHandler extends Handler {
 	}
 
 	handle(request){
-		if(request.type == 'toScale'){
+		console.log(request.type)
+		console.log(request.type == 'toScale')
+		console.log(this.successor == null)
+		if(request.type == "toScale"){
 			fs.writeFile('./toScale' + request.xs + '_' + request.ys + '.jpg', new Buffer(request.image, 'base64'), (err)=>{})
 			var bitmap = new ImageJS.Bitmap()
 			bitmap.readFile('./toScale' + request.xs + '_' + request.ys + '.jpg')
@@ -19,11 +22,11 @@ class ToScaleHandler extends Handler {
 						height: (bitmap.height*request.scale),
 						algorithm: "bicubicInterpolation"
 					})
-					supervisor.updateImage(thumbnail, (request.xs-1)*request.scale+1, (request.ys-1)*request.scale+1)
+					this.supervisor.updateImage(thumbnail, (request.xs-1)*request.scale+1, (request.ys-1)*request.scale+1)
 					thumbnail.writeFile('./toScale' + request.xs + '_' + request.ys + '.jpg', {quality: 90})
 						.then(function() {
 							var bm = fs.readFileSync('./toScale' + request.xs + '_' + request.ys + '.jpg')
-							supervisor.broadcast(JSON.stringify({
+							this.supervisor.broadcast(JSON.stringify({
 								type: 'scaled',
 								image: new Buffer(bm).toString('base64'),
 								x: (request.xs-1)*request.scale+1,
@@ -33,7 +36,7 @@ class ToScaleHandler extends Handler {
 						})
 				})
 		}
-		else if(this.successor)
+		else if(this.successor != null)
 			this.successor.handle(request)
 		else
 			console.log("Unhandled request")

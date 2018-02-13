@@ -9,7 +9,8 @@ class ScaledHandler extends Handler{
 	}
 
 	handle(request){
-		if(request.type = 'scaled'){
+		console.log(request.type)
+		if(request.type == 'scaled'){
 			fs.writeFile('./scaled' + request.x + '_' + request.y + '.jpg', new Buffer(request.image, 'base64'), (err)=>{})
 			var bitmap = new ImageJS.Bitmap()
 			bitmap.readFile('./scaled' + request.x + '_' + request.y + '.jpg')
@@ -18,7 +19,7 @@ class ScaledHandler extends Handler{
 					fs.unlink('./scaled' + request.x + '_' + request.y + '.jpg', ()=>{})
 				})
 		}
-		else if(this.successor){
+		else if(this.successor != null){
 			this.successor.handle(request)
 		}
 		else{
