@@ -33,8 +33,8 @@ class ToScaleHandler extends Handler {
 						})
 				})
 		}
-		else if(successor)
-			successor.handle(request)
+		else if(this.successor)
+			this.successor.handle(request)
 		else
 			console.log("Unhandled request")
 	}
