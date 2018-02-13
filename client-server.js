@@ -75,7 +75,7 @@ class ClientServer extends Server {
   	sendToIP(ip, msg){
   		for(var i in this.clients){
   			if(this.clients[i].remoteAddress == ip){
-  				this.client[i].write(msg)
+  				this.clients[i].write(msg)
   				break
   			}
   		}
