@@ -7,8 +7,6 @@ class ToScaleHandler extends Handler {
 		super(handler)
 		this.supervisor = supervisor
 		this.successor = handler
-		//console.log(this.successor.constructor.name)
-		console.log(this.supervisor.constructor.name)
 	}
 
 	handle(request){

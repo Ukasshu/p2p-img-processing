@@ -6,6 +6,7 @@ class ScaledHandler extends Handler{
 	constructor(supervisor, handler){
 		super(handler)
 		this.supervisor = supervisor
+		this.successor = handler
 	}
 
 	handle(request){
