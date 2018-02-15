@@ -15,15 +15,15 @@ class Client {
         this.handler = null
   }
 
-    set observerObject(observer){ //potrzebne w serverze //jest
+    set observerObject(observer){
         this.observer = observer
     }
 
-    set handlerObject(handler){ //potrzebne w serverze //jest
+    set handlerObject(handler){
         this.handler = handler
     }
 
-    get remoteConnectionsIP () { //potrzebne w serverze //jest
+    get remoteConnectionsIP () {
         return this.connections.map(x => x.remoteAddress)
     }
 
@@ -51,14 +51,12 @@ class Client {
 
     _connectToClient (ip) {
         const socket = new net.Socket()
-        //socket.setTimeout(7200000) // niepotrzebne defaultowo nie ma timeoutu
 
         socket.connect(this.centralPort, ip, () => {
             this.connections.push(socket)
             this.messageBuffers.set(socket.remoteAddress, "")
             this.observer.notifyIPs()
             console.log('Connected to ' + ip)
-        //  socket.write('Hello from ' + socket.localAddress)
         })
 
         socket.on('data', (data) => {
@@ -73,7 +71,6 @@ class Client {
             else{
                 this.messageBuffers.set(socket.remoteAddress, msg)
             }
-            //zaimplementowac to po drugiej stronie łącznosci
         })
 
         socket.on('error', (error) => {
@@ -95,7 +92,7 @@ class Client {
         socket.end()
     }
 
-    sendToIP(ip, msg){ //przekopiowac do client servera
+    sendToIP(ip, msg){
         for(var i in this.connections){
             if ( this.connections[i].remoteAddress == ip ){
                 this.connections[i].write(msg)
@@ -104,7 +101,7 @@ class Client {
         }
     }
 
-    broadcast(msg){ //tez sie przyda w serverze -- trzeba zrobic szybko fabryke //done
+    broadcast(msg){
         this.connections.forEach( socket => {
             socket.write(msg)
         })

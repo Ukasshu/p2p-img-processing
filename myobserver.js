@@ -1,11 +1,9 @@
 class MyObserver {
+
 	notifyIPs(){
-		throw new Error("Tried to use abstract class")
+		throw new Error('Abstract class needs implementation!')
 	}
 
-	notifyTaskDone(ip){
-		throw new Error("Tried to use abstract class")
-	}
 }
 
 module.exports = MyObserver

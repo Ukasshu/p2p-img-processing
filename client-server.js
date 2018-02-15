@@ -32,10 +32,7 @@ class ClientServer extends Server {
       this.clients.push(socket)
 			this.observer.notifyIPs()
 
-      //connectFn(client, this)
-
       socket.on('data', (data) => {
-        //dataFn(client, this, data.toString())
         var msg = this.messageBuffers.get(socket.remoteAddress) + data.toString()
         if(msg.slice(-1) == '}'){
         	this.messageBuffers.set(socket.remoteAddress, "")
@@ -57,7 +54,6 @@ class ClientServer extends Server {
 
       socket.on('error', (error) => {
         this.clients = this.clients.filter(x => x.remoteAddress !== clientAddress)
-        //errorFn(client, this)
         this.observer.notifyIPs()
       })
 

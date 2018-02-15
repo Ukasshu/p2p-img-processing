@@ -1,14 +1,14 @@
 const net = require('net')
-//const MyObserver = require('./myobserver') do servera clientowego doniesc
 
 class Server {
+
   constructor (address, port) {
     this.address = address || '127.0.0.1'
     this.port = port
     this.clients = []
   }
 
-  get clientAddresses() { // w cliencie remoteConnectionsIp
+  get clientAddresses() {
     return this.clients.map(x => x.remoteAddress)
   }
 
@@ -55,6 +55,7 @@ class Server {
       client.write(msg)
     })
   }
+  
 }
 
 module.exports = Server

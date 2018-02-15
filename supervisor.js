@@ -7,23 +7,22 @@ const ScaledHandler = require('./scaled-handler')
 const MyObserver =  require('./myobserver')
 const ClientServerFactory = require('./clientserverfactory')
 const arrayDiff = require('./array-diff')
-
 const ImageJS = require('imagejs')
 const fs = require('fs')
 const opn = require('opn')
 
 class Supervisor extends MyObserver {
+
 	constructor(serverIP, myIP){
 		super()
-		this.server = new ClientServerFactory().create(myIP) // zrobic fabryke i podmienic na jej wywolanie oraz start zamienic na start bez argumentowe
+		this.server = new ClientServerFactory().create(myIP)
 		this.client = new Client(serverIP)
 
 		this.ips = []
 		this.tasks = []
-		this.ipMap = new Map() // K - ip, V - task
+		this.ipMap = new Map()
 		this.scaledImage = null
 		this.isDelegatingTasks  = false
-
 
 		this.dimensionsHandler = new DimensionsHandler(this, null)
 		this.scaledHandler = new ScaledHandler(this, this.dimensionsHandler)
@@ -33,8 +32,6 @@ class Supervisor extends MyObserver {
 		this.client.handlerObject = this.toScaleHandler
 		this.server.observerObject = this
 		this.client.observerObject = this
-
-
 
 		this.server.start(() => null, () => null, () => null, (c, s, data) => console.log(data))
 		this.client.start()
@@ -61,7 +58,7 @@ class Supervisor extends MyObserver {
 				var pic = fs.readFileSync('./crops/' + this.ipMap.get(ip).x + '_' + this.ipMap.get(ip).y + '.jpg')
 				this.sendToIP(ip, JSON.stringify({
 					type: 'toScale',
-					image: new Buffer(pic).toString('base64'),//wczytać obrazek do base'a
+					image: new Buffer(pic).toString('base64'),
 					xs: this.ipMap.get(ip).x,
 					ys: this.ipMap.get(ip).y,
 					scale: 100
@@ -69,13 +66,8 @@ class Supervisor extends MyObserver {
 			}
 		}
 		else{
-			//something is no yes
-			// albo tak ma być i będzie bo serwer is client nie bedzie wiedział o tym czy dane zadanie zostało zlecone przez danego supervisora
 			null
 		}
-		//trzeba dopisac wysylanie wiadomosci do socketu o podanym adresie ze ma cos robic
-		//potrzeba flagi ktora bedzie oznaczac supervisor'a ktory nadzoruje przetwarzanie aby nie wyslac od wszystkich klientow
-		//wymiarów obrazka aby client nie sfixował
 	}
 
 	notifyIPs(){
@@ -92,7 +84,6 @@ class Supervisor extends MyObserver {
 				    	XX: scaledImage.width,
 				    	YY: scaledImage.height
 				    }))
-				    //wyslac zadanie jesli jakies jest
 				    if(this.tasks.length != 0){
 				    	task = this.tasks.shift()
 				    	var pic = fs.readFileSync('./crops/' + task.x + '_' + task.y + '.jpg')
@@ -128,7 +119,6 @@ class Supervisor extends MyObserver {
 	}
 
 	runCalculations(filepath){
-		//funcka rozpoczynajaca całe dziadostwo xD - ta karuzele sp... xD
 		var bitmap = new ImageJS.Bitmap()
 		bitmap.readFile(filepath)
 			.then(() => {
@@ -137,7 +127,6 @@ class Supervisor extends MyObserver {
 					XX: 100*bitmap.width,
 					YY: 100*bitmap.height
 				}))
-				//this.scaledImage = new ImageJS.Bitmap({width: 100*bitmap.width, height: 100*bitmap.height}) //mało co zapomniałem o tym
 				this.dimensionsHandler.handle({
 					type: 'dimensions',
 					XX: 100*bitmap.width,
@@ -160,7 +149,7 @@ class Supervisor extends MyObserver {
 						}
 						console.log(lastVPiece +' '+ newVPiece +' '+ lastHPiece +' '+ newHPiece +' '+ i +' '+ j)
 						var cropped = bitmap.crop({top: lastVPiece, left: lastHPiece, width: (newHPiece-lastHPiece), height: (newVPiece-lastVPiece)})
-						this.saveCrop(cropped, lastHPiece+1, lastVPiece+1) // zapisuje sie asynchronicznie
+						this.saveCrop(cropped, lastHPiece+1, lastVPiece+1)
 						lastVPiece = newVPiece
 					}
 
@@ -168,14 +157,13 @@ class Supervisor extends MyObserver {
 				}
 			})
 			this.isDelegatingTasks = true
-			//setTimeout(() => {this.takeAndCompleteTask()}, 5000) //moze nie zadzialac jesli zadne zadanie nie zostanie wstawione to tablicy
 	}
 
 
 	saveCrop(crop, x, y){
 		crop.writeFile('./crops/' + x + '_' + y + '.jpg', {quality: 90})
 			.then(()=>{
-				/*var flag = false         //ten fragment nie działa
+				/*var flag = false         //doesn't work
 				for(var ipAddress in this.ips){
 					if(this.ipMap.get(ipAddress) == {}){
 						var pic = fs.readFileSync('./crops/' + x + '_' + y + '.jpg')
@@ -196,8 +184,8 @@ class Supervisor extends MyObserver {
 			setTimeout(()=>{this.giveAwayTasks()}, 7000)
 	}
 
+	//powershell package is required to run http-server and the browser
 	runBrowserToView(){
-		//potrzebny pakiet powershell do otworzenia przegladarki i http servera
 		opn('./index.html')
 	}
 
@@ -219,7 +207,10 @@ class Supervisor extends MyObserver {
 		}
 	}
 
-	takeAndCompleteTask(){ //meotda do wyrzucenia
+	/*this method was expected to do tasks by the peer which divides the tasks
+	 but 'something is no yes' */
+
+	/*takeAndCompleteTask(){
 		if(this.tasks.length !== 0){
 			var task = this.tasks.shift()
 			var pic = fs.readFileSync('./crops/'+task.x+'_'+task.y+'.jpg')
@@ -232,7 +223,8 @@ class Supervisor extends MyObserver {
 			})
 			this.takeAndCompleteTask()
 		}
-	}
+	} */
+
 }
 
 module.exports = Supervisor

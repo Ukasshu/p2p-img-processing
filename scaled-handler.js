@@ -1,9 +1,9 @@
 const Handler = require('./handler')
-
 const fs = require('fs')
 const ImageJS = require('imagejs')
 
 class ScaledHandler extends Handler{
+
 	constructor(supervisor, handler){
 		super(handler)
 		this.supervisor = supervisor
@@ -20,7 +20,6 @@ class ScaledHandler extends Handler{
 					fs.unlink('./scaled' + request.x + '_' + request.y + '.jpg', ()=>{})
 					this.supervisor.notifyTaskDone(request.ip)
 				})
-
 		}
 		else if(this.successor){
 			this.successor.handle(request)
@@ -29,6 +28,7 @@ class ScaledHandler extends Handler{
 			console.log('Unhandled request')
 		}
 	}
+	
 }
 
 module.exports = ScaledHandler

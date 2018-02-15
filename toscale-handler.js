@@ -3,6 +3,7 @@ const fs = require('fs')
 const ImageJS = require('imagejs')
 
 class ToScaleHandler extends Handler {
+
 	constructor(supervisor, handler){
 		super(handler)
 		this.supervisor = supervisor
@@ -39,6 +40,7 @@ class ToScaleHandler extends Handler {
 		else
 			console.log("Unhandled request")
 	}
+	
 }
 
 module.exports = ToScaleHandler
